@@ -1,3 +1,3 @@
 ﻿server = { enableXsrfProtection = false }
 browser = { gatherUsageStats = false }
-runner = { pythonVersion = "3.10" }
+runner = { pythonVersion = "3.12" }
