@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import tensorflow as tf
-import tensorflow_hub as hub
+#import tensorflow_hub as hub
 import traceback
 
 class PoseDetector:
@@ -9,14 +9,26 @@ class PoseDetector:
         """姿勢検出器の初期化"""
         try:
             print("Loading MoveNet model...")
-            model = hub.KerasLayer("https://tfhub.dev/google/movenet/singlepose/lightning/4")
-            inputs = tf.keras.Input(shape=(192, 192, 3), dtype=tf.int32)
-            outputs = model(inputs)
-            self.movenet = tf.keras.Model(inputs=inputs, outputs=outputs)
+            # 直接TensorFlowのモデルとしてロード
+            self.model = tf.keras.Sequential([
+                tf.keras.layers.InputLayer(input_shape=(192, 192, 3)),
+                tf.keras.layers.Lambda(lambda x: tf.cast(x, tf.int32)),
+                tf.keras.models.load_model('https://tfhub.dev/google/movenet/singlepose/lightning/4')
+            ])
             print("Model loaded successfully!")
         except Exception as e:
             print(f"Error loading model: {str(e)}")
             raise
+        #try:
+            #print("Loading MoveNet model...")
+            #model = hub.KerasLayer("https://tfhub.dev/google/movenet/singlepose/lightning/4")
+            #inputs = tf.keras.Input(shape=(192, 192, 3), dtype=tf.int32)
+            #outputs = model(inputs)
+            #self.movenet = tf.keras.Model(inputs=inputs, outputs=outputs)
+            #print("Model loaded successfully!")
+        #except Exception as e:
+            #print(f"Error loading model: {str(e)}")
+            #raise
 
     def detect_pose(self, image):
         """画像から姿勢を検出"""
