@@ -1,6 +1,6 @@
-﻿numpy==1.24.3
-pandas==1.5.3
-tensorflow==2.13.0
+﻿numpy>=1.21.0,<1.25.0
+pandas<2.0.0
 streamlit==1.21.0
+tensorflow-cpu==2.12.0
 opencv-python-headless==4.7.0.72
 protobuf==3.20.3
