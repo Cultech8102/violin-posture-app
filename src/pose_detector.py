@@ -1,20 +1,30 @@
 import cv2
 import numpy as np
 import tensorflow as tf
-import tensorflow_hub as hub
-import traceback
+#import tensorflow_hub as hub
+#import traceback
 
 class PoseDetector:
     def __init__(self):
         """姿勢検出器の初期化"""
         try:
             print("Loading MoveNet model...")
-            model = hub.load('https://tfhub.dev/google/movenet/singlepose/lightning/4')
-            self.movenet = model.signatures['serving_default']
+            self.model = tf.saved_model.load('https://tfhub.dev/google/movenet/singlepose/lightning/4')
+            self.movenet = self.model.signatures['serving_default']
             print("Model loaded successfully!")
         except Exception as e:
             print(f"Error loading model: {str(e)}")
             raise
+    #def __init__(self):
+        #"""姿勢検出器の初期化"""
+        #try:
+            #print("Loading MoveNet model...")
+            #model = hub.load('https://tfhub.dev/google/movenet/singlepose/lightning/4')
+            #self.movenet = model.signatures['serving_default']
+            #print("Model loaded successfully!")
+        #except Exception as e:
+            #print(f"Error loading model: {str(e)}")
+            #raise
 
     def detect_pose(self, image):
         """画像から姿勢を検出"""
